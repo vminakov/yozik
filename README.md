@@ -61,6 +61,7 @@ It will install a Debian box with all necessary dependencies.
 * Search section: make it possible to check/uncheck and preview videos with keyboard shortcuts
 * Search section: handling direct links better
 * Search section: show available quality information
+* Search section: handle youtube-dl playlists
 * Download section: show elapsed time, ETA
 * Download section: advanced youtube-dl and ffmpeg options (select quality, resolutions, codecs, etc.)
 * Download section: hits and tips for video formats (which are better suitable for phones/tablets/desktops/etc.)
@@ -70,7 +71,7 @@ It will install a Debian box with all necessary dependencies.
 * New: integrate with mp3gain to normalize sound in downloaded files
 * New: download static ffmpeg binaries if it's not installed
 * New: provide a way to upgrade youtube-dl automatically
-* New: preferences menu - configure default download paths, naming conventions
+* New: preferences menu - configure default download paths, naming conventions, proxy settings, etc.
 
 ## License
 
