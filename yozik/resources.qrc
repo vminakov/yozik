@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>resources/yozik.svg</file>
+    <file>resources/yozik.png</file>
+    <file>resources/spinner.gif</file>
+</qresource>
+</RCC>
