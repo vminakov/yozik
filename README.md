@@ -2,6 +2,9 @@
 
 **Simple cross-platform GUI for the wonderful [youtube-dl](https://github.com/rg3/youtube-dl) programm**
 
+## Screenshots
+![Search screen](screen-yozik-1.png)
+![Download screen](screen-yozik-2.png)
 
 ## Features
 
