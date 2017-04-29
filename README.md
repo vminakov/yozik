@@ -61,10 +61,12 @@ It will install a Debian box with all necessary dependencies.
 * Search section: make it possible to check/uncheck and preview videos with keyboard shortcuts
 * Search section: handling direct links better
 * Search section: show available quality information
-* Search section: handle youtube-dl playlists
+* Search section: handle youtube-dl playlists and direct links properly
+* Search section: cache search results for same search terms
 * Download section: show elapsed time, ETA
 * Download section: advanced youtube-dl and ffmpeg options (select quality, resolutions, codecs, etc.)
 * Download section: hits and tips for video formats (which are better suitable for phones/tablets/desktops/etc.)
+* Download section: open destination folder button
 * UI: do some icons, make it more dynamic
 * UI: draw a better logo
 * UI: fix static sizes, adapt UI to different themes
