@@ -1,6 +1,7 @@
 from lxml.html import html5parser, tostring
 import lxml.html
 import urllib
+import re
 
 
 class Search(object):
@@ -16,7 +17,7 @@ class Search(object):
         if (type(searchterms) != list):
             searchterms = list(searchterms)
 
-        self.searchterms = searchterms
+        self.searchterms = Search.sanitize_search_terms(searchterms)
         self.search_results = dict()
 
     def search(self):
@@ -52,3 +53,21 @@ class Search(object):
 
     def _build_download_url(self, link):
         return "https://www.youtube.com" + link.get("href")
+
+    @staticmethod
+    def sanitize_search_terms(search_terms):
+        sanitized = []
+        video_pattern = re.compile("watch\?v=([^&]+)")
+        playlist_pattern = re.compile("list\?v=([^&]+)")
+
+        for search_term in search_terms:
+            if playlist_pattern.search(search_term):
+                sanitized.append(playlist_pattern.search(search_term).group(1))
+            elif video_pattern.search(search_term):
+                sanitized.append(video_pattern.search(search_term).group(1))
+            else:
+                sanitized.append(search_term)
+
+        return sanitized
+
+
