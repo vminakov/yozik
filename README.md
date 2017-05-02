@@ -59,7 +59,7 @@ It will install a Debian box with all necessary dependencies.
 * General: Clean up the code, make it PEP8 compliant where it is possible
 * General: handle errors gracefully (i.e. wrong download path, converting errors)
 * Search section: make it possible to check/uncheck and preview videos with keyboard shortcuts
-* Search section: handling direct links better
+* Search section: display processed search terms in the tree view as soon as they become available
 * Search section: show available quality information
 * Search section: handle youtube-dl playlists and direct links properly
 * Search section: cache search results for same search terms
