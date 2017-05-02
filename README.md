@@ -62,7 +62,7 @@ It will install a Debian box with all necessary dependencies.
 * Search section: display processed search terms in the tree view as soon as they become available
 * Search section: show available quality information
 * Search section: handle youtube-dl playlists and direct links properly
-* Search section: cache search results for same search terms
+* ~~Search section: cache search results for same search terms~~
 * Download section: show elapsed time, ETA
 * Download section: advanced youtube-dl and ffmpeg options (select quality, resolutions, codecs, etc.)
 * Download section: hits and tips for video formats (which are better suitable for phones/tablets/desktops/etc.)
