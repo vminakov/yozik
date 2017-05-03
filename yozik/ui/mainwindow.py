@@ -183,3 +183,6 @@ class MainWindow(QMainWindow):
             self.loading_spinner.hide()
             self.loading_spinner = None
 
+    def toggle_event_processing(self):
+        """ todo: disabla event handling in the tree view while search is in progress"""
+        pass

@@ -1,16 +1,21 @@
+from PyQt5.QtCore import pyqtSignal, QObject
 from .searchterm import SearchTerm
 
 
-class Search(object):
+class Search(QObject):
     __instance = None
 
-    def __new__(cls, searchterms):
+    searchTermStarted = pyqtSignal(int, int)
+    searchTermFinished = pyqtSignal(str, list)
+
+    def __new__(cls, searchterms, parent=None):
         if Search.__instance is None:
-            Search.__instance = object.__new__(cls)
+            Search.__instance = QObject.__new__(cls)
             Search.__instance.search_results_cache = dict()
         return Search.__instance
 
-    def __init__(self, searchterms):
+    def __init__(self, searchterms, parent=None):
+        super().__init__(parent)
         if (type(searchterms) != list):
             searchterms = list(searchterms)
 
@@ -18,13 +23,16 @@ class Search(object):
         self.search_results = dict()
 
     def search(self):
-        for searchterm in self.searchterms:
+        for index, searchterm in enumerate(self.searchterms):
+            self.searchTermStarted.emit(index + 1, len(self.searchterms))
             try:
                 self.search_results[searchterm] = self._fetch_from_cache(searchterm)
             except KeyError:
                 self.search_results[searchterm] \
                     = self.search_results_cache[searchterm] \
                     = self._fetch_from_youtube(searchterm)
+
+            self.searchTermFinished.emit(searchterm, self.search_results[searchterm])
 
         return self.search_results
 

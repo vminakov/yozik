@@ -21,7 +21,7 @@ class SearchTerm(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def _search(self):
-        """Retrieve links (tuples of URL and title)"""
+        """Retrieve list of link pairs (tuples of URL and title)"""
 
     @staticmethod
     def factory(searchterm):
@@ -61,7 +61,7 @@ class PlaylistLink(SearchTerm):
 class SimpleSearchTerm(SearchTerm):
     def _search(self):
         search_results = []
-        search_url = "ytsearch15: " + self._searchterm
+        search_url = "ytsearch10: " + self._searchterm
         with youtube_dl.YoutubeDL({"ignoreerrors": True}) as ydl:
             search_info = ydl.extract_info(search_url, download=False)
             for info in search_info['entries']:

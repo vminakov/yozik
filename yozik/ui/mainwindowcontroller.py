@@ -20,11 +20,14 @@ class MainWindowController(QObject):
     def find(self):
         self.w.treeView.clear()
         self.w.toggle_loading_spinner()
+        self.w.toggle_event_processing()
         search_terms = self._sanitize_input(self.w.inputField.toPlainText())
 
         youtube_search = Search(search_terms)
         self._search_thread = SearchThread(youtube_search, parent=self)
-        self._search_thread.finished.connect(self._populate_search_results)
+        self._search_thread.searchTermFinished.connect(self._add_search_result)
+        self._search_thread.searchTermStarted.connect(self._update_status_bar)
+        self._search_thread.finished.connect(self._finish_search)
         self._search_thread.start()
 
     def show_download_dialog(self):
@@ -39,14 +42,19 @@ class MainWindowController(QObject):
         )
         dialog_controller.show()
 
-    def _populate_search_results(self):
-        results = self._search_thread.search_results()
-        for searchterm, downloadUrls in results.items():
-            first_search_result = downloadUrls.pop(0)
-            parent_row = self.w.add_parent_row(searchterm, first_search_result[0], first_search_result[1])
-            for search_result in downloadUrls:
-                self.w.add_child_row(parent_row, searchterm, search_result[0], search_result[1])
+    def _update_status_bar(self, index, total):
+        self.w.statusBar().showMessage("Processing search term %s from %s" % (index, total))
 
+    def _add_search_result(self, searchterm, search_results):
+        url, title = search_results.pop(0)
+        parent_row = self.w.add_parent_row(searchterm, url, title)
+
+        for search_result in search_results:
+            url, title = search_result
+            self.w.add_child_row(parent_row, searchterm, url, title)
+
+    def _finish_search(self):
+        self.w.statusBar().clearMessage()
         self.w.toggle_loading_spinner()
 
     def _downloadable_items(self):
