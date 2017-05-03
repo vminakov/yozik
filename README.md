@@ -21,9 +21,6 @@ Until packages are provided you need to install following dependencies:
 * PyQt >= 5.3
 * youtube-dl
 * ffmpeg or libav
-* python3-lxml
-* python3-cssselect
-* python3-html5lib
 
 To run the app simply execute "./run.py"
 
@@ -31,14 +28,14 @@ To run the app simply execute "./run.py"
 To install quickly on Mac OS X install dependecies
 
     $> brew install ffmpeg python3
-    $> pip3 install PyQt5 lxml youtube-dl html5lib cssselect
+    $> pip3 install PyQt5 youtube-dl
 
 And then clone the repository and execute "./run.py"
 
 ### Linux
 To install on Debian based distros (tested on Debian 8 and Linux Mint 18) install dependecies:
 
-    $> sudo apt-get install python3-pip python3-pyqt5 python3-pyqt5.qtwebkit python3-lxml python3-cssselect python3-html5lib
+    $> sudo apt-get install python3-pip python3-pyqt5 python3-pyqt5.qtwebkit
     $> sudo pip3 install youtube-dl
 
 And then clone the repository and execute "./run.py"
@@ -65,7 +62,7 @@ It will install a Debian box with all necessary dependencies.
 * ~~Search section: handle youtube-dl playlists and direct links properly (WIP)~~
 * Search section: clean up search code, agree on naming conventions
 * Search section: check for download all videos in playlists by default
-* Search section: replace custom html5lib based search with youtube-dl
+* ~~Search section: replace custom html5lib based search with youtube-dl~~
 * ~~Search section: cache search results for same search terms~~
 * Download section: show elapsed time, ETA
 * Download section: advanced youtube-dl and ffmpeg options (select quality, resolutions, codecs, etc.)

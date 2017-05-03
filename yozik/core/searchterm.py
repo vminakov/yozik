@@ -1,7 +1,4 @@
-from lxml.html import html5parser, tostring
 import abc
-import lxml.html
-import urllib
 import youtube_dl
 import re
 
@@ -64,20 +61,12 @@ class PlaylistLink(SearchTerm):
 class SimpleSearchTerm(SearchTerm):
     def _search(self):
         search_results = []
-
-        youtube_search_url = "https://www.youtube.com/results?search_query=" + urllib.parse.quote_plus(self._searchterm)
-        el = lxml.html.fromstring(tostring(html5parser.parse(youtube_search_url)))
-
-        for link in el.cssselect("ol.item-section li a.yt-uix-tile-link"):
-            if self._is_valid_link(link):
-                search_results.append((self._build_download_url(link), link.text))
+        search_url = "ytsearch15: " + self._searchterm
+        with youtube_dl.YoutubeDL({"ignoreerrors": True}) as ydl:
+            search_info = ydl.extract_info(search_url, download=False)
+            for info in search_info['entries']:
+                search_results.append(
+                    (info['webpage_url'], info['title'])
+                )
 
         return search_results
-
-    def _is_valid_link(self, link):
-        if not link.get("href").startswith("/watch?v="):
-            return False
-        return True
-
-    def _build_download_url(self, link):
-        return self.YOUTUBE_VIDEO_URL + link.get("href")

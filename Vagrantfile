@@ -70,7 +70,7 @@ Vagrant.configure(2) do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
      sudo apt-get update
-     sudo apt-get install -y python3-pip python3-pyqt5 python3-pyqt5.qtwebkit openbox lightdm xterm python3-lxml python3-cssselect python3-html5lib
+     sudo apt-get install -y python3-pip python3-pyqt5 python3-pyqt5.qtwebkit openbox lightdm xterm
      sudo sed -i 's/allowed_users=.*$/allowed_users=anybody/' /etc/X11/Xwrapper.config
      sudo pip3 install youtube-dl
   SHELL

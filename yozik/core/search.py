@@ -1,7 +1,3 @@
-from lxml.html import html5parser, tostring
-import lxml.html
-import urllib
-import re
 from .searchterm import SearchTerm
 
 
