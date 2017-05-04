@@ -74,7 +74,7 @@ It will install a Debian box with all necessary dependencies.
 * New: integrate with mp3gain to normalize sound in downloaded files
 * New: download static ffmpeg binaries if it's not installed
 * New: provide a way to upgrade youtube-dl automatically
-* New: preferences menu - configure default download paths, naming conventions, proxy settings, etc.
+* New: preferences menu - configure default download paths, naming conventions, proxy settings, login credentials, etc.
 
 ## License
 

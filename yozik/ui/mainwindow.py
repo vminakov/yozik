@@ -38,6 +38,8 @@ class MainWindow(QMainWindow):
         mainLayout.addWidget(self._init_ui_download_box())
         self._init_ui_menu()
 
+        self.statusBar()
+
         mainWidget = QWidget()
         mainWidget.setLayout(mainLayout)
         self.setCentralWidget(mainWidget)
