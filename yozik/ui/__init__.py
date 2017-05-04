@@ -1,5 +1,5 @@
-from .downloadaudiodialog import DownloadAudioDialog
-from .downloadaudiodialogcontroller import DownloadAudioDialogController
+from .downloaddialog import DownloadDialog
+from .downloaddialogcontroller import DownloadDialogController
 from .previewabletreewidgetitem import PreviewableTreeWidgetItem
 from .mainwindow import MainWindow
 from .mainwindowcontroller import MainWindowController

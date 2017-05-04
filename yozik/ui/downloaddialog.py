@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QDialog, QTableWidget, QTableWidgetItem, QPushButton
 from yozik.core import Downloader
 
 
-class DownloadAudioDialog(QDialog):
+class DownloadDialog(QDialog):
 
     def __init__(self, parent=None):
         super().__init__(parent)

@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QObject
 from yozik.core import Search, SearchThread
-from yozik.ui import DownloadAudioDialogController, DownloadAudioDialog
+from yozik.ui import DownloadDialogController, DownloadDialog
 
 
 class MainWindowController(QObject):
@@ -35,8 +35,8 @@ class MainWindowController(QObject):
         if len(downloadable_items) == 0:
             return
 
-        dialog_controller = DownloadAudioDialogController(
-            DownloadAudioDialog(self.w),
+        dialog_controller = DownloadDialogController(
+            DownloadDialog(self.w),
             downloadable_items,
             self.w
         )

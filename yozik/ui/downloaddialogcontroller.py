@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QFileDialog, QMessageBox
 from yozik.core import DownloaderThread, Downloader
 
 
-class DownloadAudioDialogController(QObject):
+class DownloadDialogController(QObject):
 
     def __init__(self, dialog, downloadable_items, parent=None):
         super().__init__(parent)
