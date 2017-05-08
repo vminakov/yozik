@@ -51,9 +51,13 @@ class PlaylistLink(SearchTerm):
         with youtube_dl.YoutubeDL({"ignoreerrors": True}) as ydl:
             playlist_info = ydl.extract_info(playlist_url, download=False)
             for info in playlist_info['entries']:
-                search_results.append(
-                    (info['webpage_url'], info['title'])
-                )
+                try:
+                    search_results.append(
+                        (info['webpage_url'], info['title'])
+                    )
+                except TypeError:
+                    # Happens when youtube-dl didn't return anything (e.g. video is blocked in the country)
+                    pass
 
         return search_results
 

@@ -162,4 +162,7 @@ class DownloadDialog(QDialog):
         self.buttonLayout.addWidget(self.finishButton)
         self.cancelButton.hide()
 
+        anotherButton = QPushButton("Open download folder")
+        self.buttonLayout.addWidget(anotherButton)
+
 
