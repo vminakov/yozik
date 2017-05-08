@@ -13,6 +13,7 @@ class DownloadDialog(QDialog):
         self.downloadButton = None
         self.cancelButton = None
         self.finishButton = None
+        self.openDestinationButton = None
         self.buttonLayout = None
         self.downloadToInputField = None
         self.downloadToBrowseButton = None
@@ -34,7 +35,7 @@ class DownloadDialog(QDialog):
         mainLayout.addLayout(self._init_ui_bottom_layout())
 
         self.setLayout(mainLayout)
-        self.resize(640, 600)
+        self.resize(800, 600)
 
     def _init_ui_top_frame(self):
         downloadToLabel = QLabel("Download to:")
@@ -102,8 +103,8 @@ class DownloadDialog(QDialog):
         self.table.setHorizontalHeaderLabels(["Title", "Url", "Download Progress", "Postprocessing Progress"])
         self.table.setColumnWidth(0, 250)
         self.table.setColumnWidth(1, 140)
-        self.table.setColumnWidth(2, 140)
-        self.table.setColumnWidth(3, 140)
+        self.table.setColumnWidth(2, 160)
+        self.table.setColumnWidth(3, 160)
 
         return self.table
 
@@ -111,6 +112,7 @@ class DownloadDialog(QDialog):
         self.downloadButton = QPushButton("Download")
         self.cancelButton = QPushButton("Cancel")
         self.finishButton = QPushButton("Done")
+        self.openDestinationButton = QPushButton("Open destination folder")
 
         self.buttonLayout = QHBoxLayout()
         self.buttonLayout.addStretch()
@@ -162,7 +164,6 @@ class DownloadDialog(QDialog):
         self.buttonLayout.addWidget(self.finishButton)
         self.cancelButton.hide()
 
-        anotherButton = QPushButton("Open download folder")
-        self.buttonLayout.addWidget(anotherButton)
+        self.buttonLayout.addWidget(self.openDestinationButton)
 
 

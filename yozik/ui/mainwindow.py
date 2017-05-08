@@ -33,12 +33,13 @@ class MainWindow(QMainWindow):
 
 
     def init_ui(self):
+        self.statusBar()
+
         mainLayout = QVBoxLayout()
         mainLayout.addWidget(self._init_ui_search_box())
         mainLayout.addWidget(self._init_ui_download_box())
+        mainLayout.setStretch(1, 5)
         self._init_ui_menu()
-
-        self.statusBar()
 
         mainWidget = QWidget()
         mainWidget.setLayout(mainLayout)

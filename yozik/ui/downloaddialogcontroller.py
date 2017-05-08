@@ -1,7 +1,8 @@
 import os
 from datetime import datetime
-from PyQt5.QtCore import QObject
+from PyQt5.QtCore import QObject, QUrl
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
+from PyQt5.QtGui import QDesktopServices
 from yozik.core import DownloaderThread, Downloader
 
 
@@ -17,6 +18,7 @@ class DownloadDialogController(QObject):
         self.d.cancelButton.clicked.connect(self.cancel)
         self.d.finishButton.clicked.connect(self.finish)
         self.d.downloadToBrowseButton.clicked.connect(self.handle_file_dialog)
+        self.d.openDestinationButton.clicked.connect(self.open_destination_folder)
 
         default_download_path = os.path.expanduser("~") + "/yozik/" + datetime.now().strftime("%Y%m%d-%H%M%S")
         self.d.downloadToInputField.setText(default_download_path)
@@ -53,6 +55,9 @@ class DownloadDialogController(QObject):
     def handle_file_dialog(self):
         directory = QFileDialog.getExistingDirectory(caption='Select download path', parent=self.d)
         self.d.downloadToInputField.setText(directory)
+
+    def open_destination_folder(self):
+        QDesktopServices.openUrl(QUrl(self.d.downloadToInputField.text()))
 
     def _remove_trailing_slash(self):
         text = self.d.downloadToInputField.text()
