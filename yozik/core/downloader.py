@@ -63,6 +63,8 @@ class Downloader(QObject):
 
     def _download_options_audio(self):
         return {
+            'nocheckcertificate': True,
+            'ignoreerrors': True,
             'format': 'bestaudio',
             'postprocessors':  [{
                 'key': 'FFmpegExtractAudio',
@@ -76,6 +78,8 @@ class Downloader(QObject):
 
     def _download_options_video(self):
         options = {
+            'nocheckcertificate': True,
+            'ignoreerrors': True,
             'format': 'best',
             'outtmpl': self.path + '/' + youtube_dl.DEFAULT_OUTTMPL,
             'logger': DownloadLogger(self),
