@@ -64,6 +64,7 @@ It will install a Debian box with all necessary dependencies.
 * Search section: check for download all videos in playlists by default
 * ~~Search section: replace custom html5lib based search with youtube-dl~~
 * ~~Search section: cache search results for same search terms~~
+* Search section: persistent history of previous searches
 * Download section: show elapsed time, ETA
 * Download section: advanced youtube-dl and ffmpeg options (select quality, resolutions, codecs, etc.)
 * Download section: hits and tips for video formats (which are better suitable for phones/tablets/desktops/etc.)

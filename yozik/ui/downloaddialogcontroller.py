@@ -57,7 +57,7 @@ class DownloadDialogController(QObject):
         self.d.downloadToInputField.setText(directory)
 
     def open_destination_folder(self):
-        QDesktopServices.openUrl(QUrl(self.d.downloadToInputField.text()))
+        QDesktopServices.openUrl(QUrl.fromLocalFile(self.d.downloadToInputField.text()))
 
     def _remove_trailing_slash(self):
         text = self.d.downloadToInputField.text()
