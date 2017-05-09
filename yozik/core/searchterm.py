@@ -1,5 +1,9 @@
 import abc
-import youtube_dl
+
+try:
+    import youtube_dl
+except ImportError:
+    pass
 import re
 
 

@@ -1,5 +1,8 @@
 from PyQt5.QtCore import QObject, pyqtSignal
-import youtube_dl
+try:
+    import youtube_dl
+except ImportError:
+    pass
 import re
 
 

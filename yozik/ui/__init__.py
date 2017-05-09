@@ -1,3 +1,4 @@
+from .initialsetupdialog import InitialSetupDialog
 from .downloaddialog import DownloadDialog
 from .downloaddialogcontroller import DownloadDialogController
 from .previewabletreewidgetitem import PreviewableTreeWidgetItem
