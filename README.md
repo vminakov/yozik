@@ -55,9 +55,9 @@ It will install a Debian box with all necessary dependencies.
 * General: Provide packages and installers for various Linux distributions, Mac OS X and Windows
 * General: Clean up the code, make it PEP8 compliant where it is possible
 * General: handle errors gracefully (i.e. wrong download path, converting errors)
-* Search section: make it possible to check/uncheck and preview videos with keyboard shortcuts
-* Search section: display processed search terms in the tree view as soon as they become available
-* Search section: use status bar to show progress of the search (no of processed, remaining, etc.)
+* ~~Search section: make it possible to check/uncheck and preview videos with keyboard shortcuts~~
+* ~~Search section: display processed search terms in the tree view as soon as they become available~~
+* ~~Search section: use status bar to show progress of the search (no of processed, remaining, etc.)~~
 * Search section: show available quality information
 * ~~Search section: handle youtube-dl playlists and direct links properly (WIP)~~
 * Search section: clean up search code, agree on naming conventions
@@ -73,7 +73,7 @@ It will install a Debian box with all necessary dependencies.
 * UI: fix static sizes, adapt UI to different themes
 * New: integrate with mp3gain to normalize sound in downloaded files
 * New: download static ffmpeg binaries if it's not installed
-* New: provide a way to upgrade youtube-dl automatically
+* New: provide a way to upgrade youtube-dl and ffmpeg automatically
 * New: preferences menu - configure default download paths, naming conventions, proxy settings, login credentials, etc.
 
 ## License

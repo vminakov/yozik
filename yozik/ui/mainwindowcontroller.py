@@ -1,6 +1,6 @@
-from PyQt5.QtCore import QObject
+from PyQt5.QtCore import QObject, QEvent, Qt
 from yozik.core import Search, SearchThread
-from yozik.ui import DownloadDialogController, DownloadDialog
+from yozik.ui import DownloadDialogController, DownloadDialog, PreviewableTreeWidgetItem
 
 
 class MainWindowController(QObject):
@@ -11,6 +11,7 @@ class MainWindowController(QObject):
         self.w.findButton.clicked.connect(self.find)
         self.w.clearButton.clicked.connect(self.clear)
         self.w.downloadButton.clicked.connect(self.show_download_dialog)
+        self.w.treeView.installEventFilter(self)
         self._search_thread = None
 
     def clear(self):
@@ -88,3 +89,19 @@ class MainWindowController(QObject):
         search_terms = list(filter(None, search_terms))
 
         return search_terms
+
+    def _toggle_checkbox(self):
+        items = self.w.treeView.selectedItems()
+        for item in items:
+            if item.checkState(PreviewableTreeWidgetItem.TREEVIEW_COLUMN_CHECKBOX) == Qt.Unchecked:
+                new_check_state = Qt.Checked
+            else:
+                new_check_state = Qt.Unchecked
+            item.setCheckState(PreviewableTreeWidgetItem.TREEVIEW_COLUMN_CHECKBOX, new_check_state)
+
+    def eventFilter(self, target_object, event):
+        """Handle checking/unckecking items in treeview with space bar"""
+        if event.type() == QEvent.KeyPress and event.key() == Qt.Key_Space:
+            self._toggle_checkbox()
+
+        return super().eventFilter(target_object, event)

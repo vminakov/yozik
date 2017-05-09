@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QT_VERSION_STR
-from PyQt5.QtCore import Qt, QUrl, QSize
+from PyQt5.QtCore import Qt, QUrl, QSize, QEvent
 from PyQt5.QtGui import QIcon, QPixmap, QMovie
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QMainWindow, QPushButton, QVBoxLayout, \
     QPlainTextEdit, QGroupBox, QLabel, QAction, qApp, \
@@ -79,9 +79,9 @@ class MainWindow(QMainWindow):
         self.treeView.setColumnCount(3)
         self.treeView.setHeaderLabels(["Search term", "Youtube page", "Download?"])
         self.treeView.itemClicked.connect(self._show_preview_dialog)
-        self.treeView.setColumnWidth(0, 200)
-        self.treeView.setColumnWidth(1, 450)
-        self.treeView.setColumnWidth(2, 60)
+        self.treeView.setColumnWidth(PreviewableTreeWidgetItem.TREEVIEW_COLUMN_SEARCHTERM, 200)
+        self.treeView.setColumnWidth(PreviewableTreeWidgetItem.TREEVIEW_COLUMN_LINK, 450)
+        self.treeView.setColumnWidth(PreviewableTreeWidgetItem.TREEVIEW_COLUMN_CHECKBOX, 60)
 
         downloadGroupLayout = QVBoxLayout()
         downloadGroupLayout.addWidget(self.treeView)

@@ -4,12 +4,17 @@ from PyQt5.QtCore import Qt
 
 
 class PreviewableTreeWidgetItem(QTreeWidgetItem):
+
+    TREEVIEW_COLUMN_SEARCHTERM = 0
+    TREEVIEW_COLUMN_LINK = 1
+    TREEVIEW_COLUMN_CHECKBOX = 2
+
     def __init__(self, youtube_link, youtube_title, search_term, checked, parent=None):
         super().__init__(parent)
 
-        self.setText(0, search_term)
-        self.setText(1, youtube_title)
-        self.setCheckState(2, checked)
+        self.setText(self.TREEVIEW_COLUMN_SEARCHTERM, search_term)
+        self.setText(self.TREEVIEW_COLUMN_LINK, youtube_title)
+        self.setCheckState(self.TREEVIEW_COLUMN_CHECKBOX, checked)
 
         # There must be a better way how to make text look and behave like a link
         preview_link_brush = QBrush()
@@ -17,8 +22,8 @@ class PreviewableTreeWidgetItem(QTreeWidgetItem):
         preview_link_font = QFont()
         preview_link_font.setUnderline(True)
 
-        self.setForeground(1, preview_link_brush)
-        self.setFont(1, preview_link_font)
+        self.setForeground(self.TREEVIEW_COLUMN_LINK, preview_link_brush)
+        self.setFont(self.TREEVIEW_COLUMN_LINK, preview_link_font)
 
 
         self.youtube_link = youtube_link
@@ -27,7 +32,7 @@ class PreviewableTreeWidgetItem(QTreeWidgetItem):
         return hash(self.youtube_link)
 
     def isChecked(self):
-        if self.checkState(2) == Qt.Checked:
+        if self.checkState(self.TREEVIEW_COLUMN_CHECKBOX) == Qt.Checked:
             return True
         return False
 
