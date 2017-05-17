@@ -1,3 +1,4 @@
+from .thirdpartysoftware import YoutubeDl
 from .downloader import Downloader
 from .downloaderthread import DownloaderThread
 from .search import Search

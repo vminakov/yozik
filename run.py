@@ -2,10 +2,11 @@
 from os.path import expanduser
 
 import sys
-sys.path.append(expanduser("~") + "/.config/yozik/youtube-dl")
+sys.path.insert(0, expanduser("~") + "/.config/yozik/thirdpartysoftware/youtube-dl")
 
 
 def check_for_youtube_dl():
+    return False
     try:
         import youtube_dl
         return True
@@ -28,13 +29,15 @@ def start_main_app():
 
 def start_dependency_downloader():
     from PyQt5.QtWidgets import QApplication, qApp
-    import yozik.ui.initialsetupdialog
+    from yozik.ui import InitialSetupDialogController, InitialSetupDialog
     app = QApplication(sys.argv)
     qApp.setApplicationDisplayName("Yozik")
     qApp.setApplicationName("Yozik")
 
-    w = yozik.ui.initialsetupdialog.InitialSetupDialog()
+    w = InitialSetupDialog()
+    c = InitialSetupDialogController(w)
     w.show()
+    c.populate_versions()
 
     sys.exit(app.exec_())
 

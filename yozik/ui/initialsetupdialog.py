@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QDialog, QPushButton, QHBoxLayout, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem, qApp
 from PyQt5.QtCore import QProcess
+from yozik.core import YoutubeDl
 
 class InitialSetupDialog(QDialog):
 
@@ -32,10 +33,8 @@ class InitialSetupDialog(QDialog):
         return self.table
 
     def _init_ui_buttons(self):
-        self.downloadButton = QPushButton("Download")
+        self.downloadButton = QPushButton("Download and install")
         self.cancelButton = QPushButton("Cancel")
-
-        self.downloadButton.clicked.connect(self.restart_app)
 
         buttonLayout = QHBoxLayout()
         buttonLayout.addStretch()
@@ -43,10 +42,10 @@ class InitialSetupDialog(QDialog):
         buttonLayout.addWidget(self.downloadButton)
         return buttonLayout
 
-    def restart_app(self):
-        proc = QProcess()
-        import os
-        import sys
-        proc.startDetached(os.path.abspath(__file__))
+    def add_row(self, name=None, installed_version=None, available_version=None):
+        row_index = self.table.rowCount()
+        self.table.insertRow(row_index)
+        self.table.setItem(row_index, 0, QTableWidgetItem(name))
+        self.table.setItem(row_index, 1, QTableWidgetItem(installed_version))
+        self.table.setItem(row_index, 2, QTableWidgetItem(available_version))
 
-        qApp.exit()
