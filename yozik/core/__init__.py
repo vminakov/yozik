@@ -1,4 +1,5 @@
-from .thirdpartysoftware import YoutubeDl
+from .thirdpartysoftware import YoutubeDl, FFmpeg
+from .thirdpartysoftwarethread import ThirdpartySoftwareThread
 from .downloader import Downloader
 from .downloaderthread import DownloaderThread
 from .search import Search

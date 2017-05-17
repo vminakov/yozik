@@ -6,6 +6,7 @@ import tarfile
 import re
 import platform
 import shutil
+import glob
 from shutil import rmtree
 from os.path import expanduser
 from urllib.request import urlretrieve
@@ -44,7 +45,7 @@ class ThirdpartySoftware(metaclass=abc.ABCMeta):
 
 
 class YoutubeDl(ThirdpartySoftware):
-    INSTALL_PATH = expanduser("~") + "/.config/yozik/thirdpartysoftware/"
+    INSTALL_PATH = expanduser("~") + "/.config/yozik/thirdpartysoftware/youtube-dl/"
     DOWNLOAD_PATH = INSTALL_PATH + "downloads/"
     DOWNLOAD_FILENAME = DOWNLOAD_PATH + "archive.tar.gz"
 
@@ -53,7 +54,7 @@ class YoutubeDl(ThirdpartySoftware):
     @staticmethod
     def register_path():
         if YoutubeDl.INSTALL_PATH not in sys.path:
-            sys.path.append(YoutubeDl.INSTALL_PATH)
+            sys.path.append(YoutubeDl.INSTALL_PATH + "/youtube-dl")
 
     def __init__(self):
         YoutubeDl.register_path()
@@ -76,7 +77,7 @@ class YoutubeDl(ThirdpartySoftware):
         if not self.is_installed():
             return True
         else:
-            return self.available_version() == self.installed_version() and self.available_version() is not None
+            return self.available_version() != self.installed_version() and self.available_version() is not None
 
     def installed_version(self):
         if not self.is_installed():
@@ -120,7 +121,6 @@ class FFmpeg(ThirdpartySoftware):
     INSTALL_PATH = expanduser("~") + "/.config/yozik/thirdpartysoftware/ffmpeg/"
     FFMPEG_PATH = INSTALL_PATH + "ffmpeg"
 
-    FFMPEG_RELEASES_PAGE = ""
 
     def __init__(self):
         system = platform.system()
@@ -143,7 +143,7 @@ class FFmpeg(ThirdpartySoftware):
         if not self.is_installed():
             return True
         else:
-            return self.available_version() == self.installed_version() and self.available_version() is not None
+            return self.available_version() != self.installed_version() and self.available_version() is not None
 
     def installed_version(self):
         if not self.is_installed():
@@ -174,7 +174,51 @@ class _WindowsDownloader:
     pass
 
 class _LinuxDownloader:
-    pass
+    DOWNLOAD_PAGE = "https://www.johnvansickle.com/ffmpeg/"
+    DOWNLOAD_URL_32 = "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-32bit-static.tar.xz"
+    DOWNLOAD_URL_64 = "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-64bit-static.tar.xz"
+
+    DOWNLOAD_PATH = FFmpeg.INSTALL_PATH + "downloads/"
+    DOWNLOAD_FILENAME = DOWNLOAD_PATH + "ffmpeg.tar.xz"
+
+    def __init__(self):
+        self._available_version = None
+        self._download_url = None
+
+    def available_version(self):
+        if not self._available_version:
+            try:
+                html = str(requests.get(self.DOWNLOAD_PAGE).content)
+                version = re.search("release: (\d\.\d{1,2}(\.\d)?)", html).group(1)
+                self._available_version = version
+                self._download_url = self.DOWNLOAD_URL_64 if self._is_os_64bit() else self.DOWNLOAD_URL_32
+            except (AttributeError, requests.exceptions.RequestException) as e:
+                print(e)
+                return None
+
+        return self._available_version
+
+    def download(self):
+        os.makedirs(self.DOWNLOAD_PATH, exist_ok=True)
+        if os.path.exists(self.DOWNLOAD_FILENAME):
+            os.unlink(self.DOWNLOAD_FILENAME)
+
+        urlretrieve(self._download_url, self.DOWNLOAD_FILENAME)
+        return True
+
+    def install(self):
+        tar = tarfile.open(self.DOWNLOAD_FILENAME)
+        tar.extractall(self.DOWNLOAD_PATH)
+        tar.close()
+
+        files = glob.glob(self.DOWNLOAD_PATH + "*")
+        files.sort(key=os.path.getmtime)
+        extracted_ffmpeg = files[0] + "/ffmpeg"
+        shutil.copy2(extracted_ffmpeg, FFmpeg.FFMPEG_PATH)
+
+
+    def _is_os_64bit(self):
+        return platform.machine().endswith('64')
 
 class _MacOsXDownloader:
     # Installing ffmpeg for mac os x is even more hackier. ffmpeg static builds are provided in .dmg or .7z format.
@@ -182,7 +226,7 @@ class _MacOsXDownloader:
     # (p7zip) or pylzma, which for me chrashes on ffmpeg archives. So, .dmg is downloaded, mountend, ffmpeg is copied
     # and then image is demounted.
 
-    DOwNLOAD_PAGE = "https://evermeet.cx/ffmpeg/"
+    DOWNLOAD_PAGE = "https://evermeet.cx/ffmpeg/"
     DOWNLOAD_PATH = FFmpeg.INSTALL_PATH + "downloads/"
     DOWNLOAD_FILENAME = DOWNLOAD_PATH + "ffmpeg.dmg"
     MOUNT_POINT = "/Volumes/ffmpeg"
@@ -194,7 +238,7 @@ class _MacOsXDownloader:
     def available_version(self):
         if not self._available_version:
             try:
-                html = str(requests.get(self.DOwNLOAD_PAGE).content)
+                html = str(requests.get(self.DOWNLOAD_PAGE).content)
                 version = re.search("<a href=\"ffmpeg-(\d\.\d{1,2}(\.\d)?)\.dmg\"", html).group(1)
                 self._available_version = version
                 self._download_url = "%sffmpeg-%s.dmg" % (self.DOwNLOAD_PAGE, version)
