@@ -2,7 +2,7 @@
 from os.path import expanduser
 
 import sys
-sys.path.insert(0, expanduser("~") + "/.config/yozik/thirdpartysoftware/youtube-dl")
+sys.path.insert(0, expanduser("~") + "/.config/yozik/thirdpartysoftware/youtube-dl/youtube-dl")
 
 
 def check_for_youtube_dl():

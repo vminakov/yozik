@@ -7,6 +7,7 @@ import re
 import platform
 import shutil
 import glob
+import importlib
 from shutil import rmtree
 from os.path import expanduser
 from urllib.request import urlretrieve
@@ -46,6 +47,7 @@ class ThirdpartySoftware(metaclass=abc.ABCMeta):
 
 class YoutubeDl(ThirdpartySoftware):
     INSTALL_PATH = expanduser("~") + "/.config/yozik/thirdpartysoftware/youtube-dl/"
+    IMPORT_PATH = INSTALL_PATH + "youtube-dl"
     DOWNLOAD_PATH = INSTALL_PATH + "downloads/"
     DOWNLOAD_FILENAME = DOWNLOAD_PATH + "archive.tar.gz"
 
@@ -53,8 +55,8 @@ class YoutubeDl(ThirdpartySoftware):
 
     @staticmethod
     def register_path():
-        if YoutubeDl.INSTALL_PATH not in sys.path:
-            sys.path.append(YoutubeDl.INSTALL_PATH + "/youtube-dl")
+        if YoutubeDl.IMPORT_PATH not in sys.path:
+            sys.path.insert(0, YoutubeDl.INSTALL_PATH + "youtube-dl")
 
     def __init__(self):
         YoutubeDl.register_path()
@@ -63,7 +65,8 @@ class YoutubeDl(ThirdpartySoftware):
         self._download_url = None
 
         try:
-            import youtube_dl
+            importlib.invalidate_caches()
+            importlib.import_module("youtube_dl")
         except ImportError:
             self._is_installed = False
 

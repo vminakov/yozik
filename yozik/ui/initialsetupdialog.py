@@ -1,15 +1,17 @@
 from PyQt5.QtWidgets import QDialog, QPushButton, QHBoxLayout, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem, qApp
-from PyQt5.QtCore import QProcess
-from yozik.core import YoutubeDl
 
 class InitialSetupDialog(QDialog):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.downloadButton = QPushButton("Download and install")
+        self.cancelButton = QPushButton("Cancel")
+        self.finishButton = QPushButton("Finish")
+        self.continueButton = QPushButton("Continue")
 
-        self.downloadButton = None
-        self.cancelButton = None
-        self.messageText = None
+        self.finishText = QLabel("Installed successfully. Restart Yozik to start using updated versions.")
+        self.messageText = QLabel()
+
         self.table = None
         self.init_ui()
 
@@ -20,27 +22,49 @@ class InitialSetupDialog(QDialog):
         layout.addLayout(self._init_ui_buttons())
         self.setLayout(layout)
 
+        self.init_ui_buttons_layout_continue()
+
     def _init_ui_message(self):
-        text = QLabel("In order to start using Yozik you need to have following programs installed."
-                      " Download and install them now?")
-        return text
+        return self.messageText
 
     def _init_ui_table(self):
         self.table = QTableWidget()
-        self.table.setColumnCount(4)
-        self.table.setHorizontalHeaderLabels(["Program", "Current version", "Latest version", "Download progress"])
+        self.table.setColumnCount(3)
+        self.table.setHorizontalHeaderLabels(["Program", "Current version", "Latest version"])
 
         return self.table
 
     def _init_ui_buttons(self):
-        self.downloadButton = QPushButton("Download and install")
-        self.cancelButton = QPushButton("Cancel")
+        return QHBoxLayout()
 
+    def init_ui_buttons_layout_missing(self):
         buttonLayout = QHBoxLayout()
         buttonLayout.addStretch()
         buttonLayout.addWidget(self.cancelButton)
         buttonLayout.addWidget(self.downloadButton)
-        return buttonLayout
+        self._exchange_button_layout(buttonLayout)
+
+    def init_ui_buttons_layout_upgradable(self):
+        buttonLayout = QHBoxLayout()
+        buttonLayout.addStretch()
+        buttonLayout.addWidget(self.cancelButton)
+        buttonLayout.addWidget(self.downloadButton)
+        self._exchange_button_layout(buttonLayout)
+
+    def init_ui_buttons_layout_finished(self):
+        buttonLayout = QHBoxLayout()
+        buttonLayout.addStretch()
+        buttonLayout.addWidget(self.finishText)
+        buttonLayout.addWidget(self.finishButton)
+        self._exchange_button_layout(buttonLayout)
+
+    def init_ui_buttons_layout_continue(self):
+        self.messageText.setText("Everything is already up-to-date. Nothing to upgrade.")
+
+        buttonLayout = QHBoxLayout()
+        buttonLayout.addStretch()
+        buttonLayout.addWidget(self.continueButton)
+        self._exchange_button_layout(buttonLayout)
 
     def add_row(self, name=None, installed_version=None, available_version=None):
         row_index = self.table.rowCount()
@@ -49,3 +73,6 @@ class InitialSetupDialog(QDialog):
         self.table.setItem(row_index, 1, QTableWidgetItem(installed_version))
         self.table.setItem(row_index, 2, QTableWidgetItem(available_version))
 
+    def _exchange_button_layout(self, newLayout):
+        self.layout().removeItem(self.layout().itemAt(2))
+        self.layout().insertLayout(2, newLayout)

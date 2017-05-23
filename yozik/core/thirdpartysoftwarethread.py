@@ -7,7 +7,7 @@ class ThirdpartySoftwareThread(QThread):
         self._software = software
 
     def __del__(self):
-        self.wait()
+        self.stop()
 
     def run(self):
         for software in self._software:

@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QObject
-from PyQt5.QtWidgets import QProgressDialog
+from PyQt5.QtWidgets import QProgressDialog, qApp
 from yozik.core import YoutubeDl, FFmpeg
 from yozik.core import ThirdpartySoftwareThread
 
@@ -11,6 +11,9 @@ class InitialSetupDialogController(QObject):
         self.thirdpartysoftware = self._init_software()
 
         self.d.downloadButton.clicked.connect(self.download)
+        self.d.cancelButton.clicked.connect(self.close_dialog)
+        self.d.finishButton.clicked.connect(self.close_app)
+        self.d.continueButton.clicked.connect(self.close_dialog)
         self.pd = None
 
     def _init_software(self):
@@ -26,7 +29,7 @@ class InitialSetupDialogController(QObject):
 
     def download(self):
         self.pd = QProgressDialog("Downloading and installing packages...", "Abort", 0, 0, parent=self.d)
-        self.pd.setMinimumDuration(1)
+        self.pd.setMinimumDuration(1000)
         self.pd.setAutoClose(False)
         self.pd.setAutoReset(False)
 
@@ -35,16 +38,18 @@ class InitialSetupDialogController(QObject):
         thread.started.connect(self._started)
         thread.start()
 
-
-    def close(self):
+    def close_dialog(self):
         pass
+
+    def close_app(self):
+        qApp.quit()
 
 
     def _started(self):
-        print("somthing started")
+        print("Downloading and installing started")
 
     def _finished(self):
-        print("thread finished")
+        print("Finished downloading and installing")
         self.d.table.setRowCount(0)
         self._init_software()
         self.populate_versions()
@@ -53,5 +58,10 @@ class InitialSetupDialogController(QObject):
         self.pd.reset()
         self.pd.hide()
         self.pd = None
+
+        self.d.restartText.show()
+        self.d.cancelButton.hide()
+        self.d.downloadButton.hide()
+        self.d.finishButton.show()
 
 
